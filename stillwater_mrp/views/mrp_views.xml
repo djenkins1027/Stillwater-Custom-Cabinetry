@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<record id="stock_move_view_inherit_stillwater_mrp" model="ir.ui.view">
+	    <field name="name">stock.move.view.inherit.stillwater_mrp</field>
+	    <field name="model">stock.move</field>
+	    <field name="inherit_id" ref="mrp.view_stock_move_lots"/>
+	    <field name="arch" type="xml">
+	    	<xpath expr="//field[@name='product_uom_qty']" position="replace">
+	    		<field name="product_uom_qty" nolabel="1" attrs="{'readonly': [('parent.state', '!=', 'confirmed')]}"/>
+	    	</xpath>
+	    </field>
+	</record>
+</odoo>
