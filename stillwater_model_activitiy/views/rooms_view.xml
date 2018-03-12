@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <record id="action_open_saleorder" model="ir.actions.act_window">
+        <field name="context">{'search_default_rooms_id': active_id,'default_rooms_id': active_id}</field>
+        <field name="domain">[('rooms_id', '=', active_id)]</field>
+        <field name="name">Quote</field>
+        <field name="res_model">sale.order</field>
+        <field name="target">current</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+    </record>
+
+    <record id="action_open_finish_sample" model="ir.actions.act_window">
+        <field name="binding_type">action</field>
+        <field name="context">{'search_default_rooms_id': active_id,'default_rooms_id': active_id}</field>
+        <field name="domain">[('rooms_id', '=', active_id)]</field>
+        <field name="name">Finish Sample</field>
+        <field name="res_model">quality.alert</field>
+        <field name="target">current</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+    </record>
+
+    <record id='action_view_rooms_rooms_tree' model='ir.ui.view'>
+        <field name='name'>Tree view for rooms.rooms</field>
+        <field name='model'>rooms.rooms</field>
+        <field name='arch' type='xml'>
+            <tree string='Rooms'>
+                <field name='name' />
+                <field name='room_budget_approved' />
+                <field name='finish_code_id' />
+                <field name='construction_method' />
+                <field name='door_stile_rail' />
+                <field name='center_panel' />
+                <field name='outside_edge' />
+                <field name='drawer_style' />
+                <field name='hardware_type' />
+                <field name='final_decisions_made' />
+            </tree>
+        </field>
+    </record>
+
+    <record id='action_view_rooms_rooms_kanban' model='ir.ui.view'>
+        <field name='name'>kanban view for rooms.rooms</field>
+        <field name='model'>rooms.rooms</field>
+        <field name='arch' type='xml'>
+            <kanban string='Rooms' default_group_by='project_lead_id'>
+                <templates>
+                    <t t-name='kanban-box'>
+                        <div t-attf-class='oe_kanban_card oe_kanban_global_click'>
+                            <div class='o_kanban_card_content'>
+                                <field name='name' display='full' />
+                                <field name='sq_ft' display='full' widget='statinfo' /> Expected Ship Date
+                                <field name='expected_ship_date' display='right' widget='date' /> Triple Binder Deadline
+                                <field name='triple_binder_deadline' widget='date' display='right' />
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+    <record id='action_view_rooms_rooms_form' model='ir.ui.view'>
+        <field name='name'>Form view for rooms.rooms</field>
+        <field name='model'>rooms.rooms</field>
+        <field name='arch' type='xml'>
+            <form>
+                <sheet string='Rooms'>
+                    <div class='oe_button_box' name='button_box'>
+                        <button class='oe_stat_button' icon='fa-paint-brush' type='action' name='%(action_open_finish_sample)d'>
+                            <!-- name='595' -->
+                            <field name='quality_room_count' string='Finish Sample' widget='statinfo' />
+                        </button>
+                        <button class='oe_stat_button' icon='fa-dollar' type='action' name='%(action_open_saleorder)d'>
+                            <!-- name='598' -->
+                            <field name='so_romm_count' string='Quote' widget='statinfo' />
+                        </button>
+                    </div>
+                    <div class='oe_title'>
+                        <h1>
+                            <field name='name' class='oe_inline'/>
+                        </h1>
+                    </div>
+                    <group name='studio_group_3963a6'>
+                        <group name='studio_group_3963a6_left'>
+                            <field name='project_lead_id' string='Project' />
+                            <field name='contact_name' string='Home Owner Last Name' />
+                            <field name='mv_project_no' string='MV Project Number' />
+                            <field name='mv_work_order_no' string='MV Work Order Number' />
+                        </group>
+                        <group name='studio_group_3963a6_right'>
+                            <field name='sq_ft' string='Sq. Ft. ' />
+                            <field name='expected_ship_date' string='Expected Ship Date' />
+                            <field name='triple_binder_deadline' string='Triple Binder Deadline' />
+                            <field name='final_decision_date' />
+                        </group>
+                    </group>
+                    <group name='studio_group_08NaG'>
+                        <group name='studio_group_08NaG_left'>
+                            <field name='species' string='Species' />
+                            <field name='construction_method' string='Construction Method' />
+                            <field name='finish_code_id' />
+                            <field name='hardware_type' string='Hardware Type' />
+                            <field name='final_decisions_made' string='Final Decisions are Made' />
+                        </group>
+                        <group name='studio_group_08NaG_right'>
+                            <field name='door_stile_rail' string='Door Stile &amp; Rail' />
+                            <field name='center_panel' string='Center Panel' />
+                            <field name='outside_edge' string='Outside Edge' />
+                            <field name='drawer_style' string='Drawer Style' />
+                            <field name='room_budget_approved' string='Room Budget Approved' />
+                        </group>
+                    </group>
+                </sheet>
+                <div class='oe_chatter'>
+                    <field name='message_follower_ids' widget='mail_followers' />
+                    <field name='activity_ids' widget='mail_activity' />
+                    <field name='message_ids' widget='mail_thread' />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id='action_view_rooms_rooms' model='ir.actions.act_window'>
+        <field name='limit'>80</field>
+        <field name='name'>Rooms</field>
+        <field name='res_model'>rooms.rooms</field>
+        <field name='type'>ir.actions.act_window</field>
+        <field name='view_mode'>kanban,tree,form</field>
+        <field name='domain'>[]</field>
+        <field name='context'>{}</field>
+    </record>
+
+    <menuitem
+            id="crm_rooms_action_view_rooms_rooms"
+            name="Rooms"
+            parent="crm.crm_menu_root"
+            sequence="2"
+            action="action_view_rooms_rooms"/>
+
+
+
+</odoo>

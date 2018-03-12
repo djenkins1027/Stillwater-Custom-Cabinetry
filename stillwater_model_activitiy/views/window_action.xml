@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+        <record id="rooms_c7e1baa4-e8e3-4359-a587-66c90728eab6" model="ir.actions.act_window">
+            <field name="binding_type">action</field>
+            <field name="context">{'search_default_project_lead_id': active_id,'default_project_lead_id': active_id}</field>
+            <field name="domain">[('project_lead_id', '=', active_id)]</field>
+            <field name="limit">80</field>
+            <field name="name">Rooms</field>
+            <field name="res_model">rooms.rooms</field>
+            <field name="target">current</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+        </record>
+        <record id="sales_orders_e87ee1b5-930d-4660-b286-3415286e0093" model="ir.actions.act_window">
+            <field name="binding_type">action</field>
+            <field name="help">
+                <![CDATA[<p>
+                            This is your new action ; by default, it contains a list view and a form view.
+                        </p>
+                        <p>
+                            You can start customizing these screens by clicking on the Studio icon on the
+                            top right corner (you can also customize this help message there).
+                        </p>
+                    ]]>
+            </field>
+            <field name="limit">80</field>
+            <field name="name">Sales Orders</field>
+            <field name="res_model">sale.order</field>
+            <field name="target">current</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+        </record>
+    </data>
+</odoo>
