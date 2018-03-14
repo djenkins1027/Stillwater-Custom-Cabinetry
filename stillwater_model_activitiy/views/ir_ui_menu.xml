@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+        <record id="crm.crm_menu_pipeline" model="ir.ui.menu">
+            <field name="action" eval="False" />
+            <field name="active" eval="True" />
+            <field name="name">Rooms</field>
+            <field name="parent_id" ref="crm.crm_menu_root" />
+            <field name="sequence" eval="False" />
+        </record>
+
+        <record id="finish_codes_2be08f1d-00de-4141-bd5a-07700fa9a3c7" model="ir.ui.menu">
+            <field name="action" eval="False" />
+            <field name="active" eval="True" />
+            <field name="name">Finish Codes</field>
+            <field name="parent_id" eval="False" />
+            <field name="sequence">10</field>
+            <field name="web_icon">fa fa-diamond,#f1c40f,#34495e</field>
+        </record>
+        <record id="finish_codes_finish__65530207-7caf-4028-bbb0-66c5c429861f" model="ir.ui.menu">
+            <field name="action" ref="finish_code_c90133f6-4526-4991-9620-76db9c934154" />
+            <field name="active" eval="True" />
+            <field name="name">Finish Code</field>
+            <field name="parent_id" ref="finish_codes_2be08f1d-00de-4141-bd5a-07700fa9a3c7" />
+            <field name="sequence">10</field>
+        </record>
+    </data>
+</odoo>
