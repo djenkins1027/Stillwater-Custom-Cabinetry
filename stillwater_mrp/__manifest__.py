@@ -11,7 +11,7 @@ Stillwater: Mrp Customizations
     'website': "https://www.odoo.com",
     'category': 'Custom Development',
     'version': '0.1',
-    'depends': ['mrp'],
+    'depends': ['mrp', 'quality_mrp'],
     'data': [
         'views/mrp_views.xml'
     ],
