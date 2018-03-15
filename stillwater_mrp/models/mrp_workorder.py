@@ -85,7 +85,7 @@ class MrpWorkorder(models.Model):
                         and move.unit_factor and not move.move_line_ids.filtered(lambda ml: not ml.done_wo):
                 rounding = move.product_uom.rounding
                 if self.product_id.tracking != 'none':
-                    qty_to_add = float_round(self.qty_producing * move.unit_factor, precision_rounding=rounding)
+                    qty_to_add = float_round(move.product_uom_qty, precision_rounding=rounding)
                     move._generate_consumed_move_line(qty_to_add, self.final_lot_id)
                 else:
                     move.quantity_done += float_round(move.product_uom_qty, precision_rounding=rounding)
