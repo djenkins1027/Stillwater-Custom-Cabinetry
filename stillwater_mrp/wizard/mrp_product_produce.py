@@ -19,10 +19,10 @@ class MrpProductProduce(models.TransientModel):
         if self.production_id.state in ('progress', 'done'):
             for move in self.production_id.move_raw_ids:
                 # TODO currently not possible to guess if the user updated quantity by hand or automatically by the produce wizard.
-                if move.product_id.tracking == 'none' and move.state not in ('done', 'cancel') and move.unit_factor and move.quantity_done != move.product_uom_qty:
+                if move.product_id.tracking == 'none' and move.state not in ('done', 'cancel') and move.unit_factor and move.quantity_done < move.product_uom_qty:
                     rounding = move.product_uom.rounding
                     if self.product_id.tracking != 'none':
-                        qty_to_add = float_round(, precision_rounding=rounding)
+                        qty_to_add = float_round(move.product_uom_qty - move.quantity_done, precision_rounding=rounding)
                         move._generate_consumed_move_line(qty_to_add, self.lot_id)
                     else:
                         move.quantity_done += float_round(move.product_uom_qty - move.quantity_done, precision_rounding=rounding)
