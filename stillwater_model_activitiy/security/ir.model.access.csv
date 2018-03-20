@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_finish_code,access_finish_code,model_finish_code,,1,1,1,1
+access_rooms_rooms,access_rooms_rooms,model_rooms_rooms,,1,1,1,1
