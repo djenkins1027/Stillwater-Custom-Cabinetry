@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+from datetime import datetime, date, timedelta
+import dateutil
+
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 
@@ -16,9 +19,12 @@ class Rooms(models.Model):
     contact_name = fields.Char(string="Home Owner Last Name", related="project_lead_id.contact_name")
     mv_project_no = fields.Char(string="MV Project Number", related="project_lead_id.mv_project_no")
     bad_sq_ft = fields.Char("Bad Sq. Ft")
-    expected_ship_date = fields.Date("Expected Ship Date", related="project_lead_id.ship_date")
-    triple_binder_deadline = fields.Date("Triple Binder Deadline", conpute="_compute_triple_binder_deadline")
-    final_decision_date = fields.Date("Final Decision Date", conpute="_compute_triple_binder_deadline")
+    today_date = fields.Date(string='Today', compute='_compute_today_date')
+    expected_ship_date = fields.Date("Expected Ship Date", store=True, related="project_lead_id.ship_date")
+    triple_binder_deadline = fields.Date(string="Triple Binder Deadline", store=True, compute="_compute_dates")
+    final_decision_date = fields.Date(string="Final Decision Deadline", store=True, compute="_compute_dates")
+    days_till_final_decision = fields.Integer(string='Days Till Final Decision Deadline ', compute='_compute_dates')
+    days_till_triple_binder = fields.Integer(string='Days Till Triple Binder Deadline    ', compute='_compute_dates')
     species = fields.Char("Species")
     construction_method = fields.Selection(selection=[
                                                 ('3/4 Overlay', '3/4 Overlay'),
@@ -35,21 +41,59 @@ class Rooms(models.Model):
     drawer_style = fields.Char("Drawer Style")
     final_decisions_made = fields.Boolean("Final Decisions are Made")
     room_budget_approved = fields.Boolean("Room Budget Approved")
+    sent_to_production = fields.Boolean("Sent to Production")
     quality_room_count = fields.Integer("Quality Rooms count", compute="_compute_quality_room_count")
     so_romm_count = fields.Integer("Sale Rooms count", compute="_compute_so_room_count")
     sq_ft = fields.Integer("Sq. Ft.")
     quotation_ids = fields.Many2many(comodel_name='sale.order', string="Quotation")
+    hex_color = fields.Char(string="Hex Color", compute="_compute_hex_color")
 
 
     @api.depends('expected_ship_date')
-    def _compute_triple_binder_deadline(self):
+    def _compute_dates(self):
         for record in self:
-            record.triple_binder_deadline = dateutil.parser.parse(record.expected_ship_date).date() - datetime.timedelta(days=35)
+             if record.expected_ship_date:
+                final_decision_date = fields.Date.from_string(record.expected_ship_date)- timedelta(days=42)
+                triple_binder_deadline = fields.Date.from_string(record.expected_ship_date) - timedelta(days=63)
 
-    @api.depends('expected_ship_date')
-    def _compute_triple_binder_deadline(self):
+                record.final_decision_date = final_decision_date
+                record.triple_binder_deadline = triple_binder_deadline
+
+                record.days_till_final_decision = (triple_binder_deadline - fields.Date.from_string(fields.Date.today())).days
+                record.days_till_triple_binder = (final_decision_date - fields.Date.from_string(fields.Date.today())).days
+
+
+
+    @api.depends('expected_ship_date', 'triple_binder_deadline', 'final_decision_date', 'final_decisions_made')
+    def _compute_hex_color(self):
+        for record in self.filtered(lambda l : l.triple_binder_deadline and l.final_decision_date):
+            if not record.sent_to_production:
+                try:
+                    blinder = fields.Datetime.from_string(fields.Datetime.now()) - fields.Datetime.from_string(record.triple_binder_deadline)
+                    delta = fields.Datetime.from_string(fields.Datetime.now()) - fields.Datetime.from_string(record.final_decision_date)
+                    if record.final_decisions_made and record.room_budget_approved:
+                        record['hex_color'] = '3498DB' # blue
+                        if blinder.days > 7:
+                            record['hex_color'] = '3498DB' # blue
+                        elif blinder.days <= 7 and blinder.days > 0:
+                            record['hex_color'] = 'AF7AC5' # light purple
+                        elif blinder.days < 0:
+                            record['hex_color'] = '76448A' # dark purple
+                    else:
+                        if delta.days > 14:
+                            record['hex_color'] = '58D68D' # green
+                        elif delta.days <= 14 and delta.days > 7:
+                            record['hex_color'] = 'F7DC6F' # yellow
+                        elif delta.days <= 7:
+                            record['hex_color'] = 'F39C12' # orange
+                except:
+                    record['hex_color'] = ""
+            else:
+                record['hex_color'] = "D3D3D3"
+
+    def _compute_today_date(self):
         for record in self:
-            record.triple_binder_deadline = dateutil.parser.parse(record.expected_ship_date).date() - datetime.timedelta(days=35)
+            record.today_date = fields.Date.today()
 
     def _compute_quality_room_count(self):
         results = self.env['quality.alert'].read_group([('rooms_id', 'in', self.ids)], 'rooms_id', 'rooms_id')

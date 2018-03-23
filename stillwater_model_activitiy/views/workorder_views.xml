@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- MRP Kanban View -->
+        <record id="stock_move_view_inherit_stillwater_mrp" model="ir.ui.view">
+            <field name="name">mrp.production.work.order.kanban.stillwater</field>
+            <field name="model">mrp.workorder</field>
+            <field name="inherit_id" ref="mrp.workcenter_line_kanban"/>
+            <field name="arch" type="xml">
+                <div t-attf-class="oe_kanban_card oe_kanban_global_click" position="attributes">
+                    <attribute name="t-attf-style">background-color: ##{record.hex_color.value};</attribute>
+                </div>
+                <field name="product_uom_id" position="after">
+                    <field name="hex_color" readonly="1"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>
