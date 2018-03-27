@@ -3,6 +3,7 @@
 from . import crm_lead
 from . import finish
 from . import rooms
+from . import purchase
 from . import sale
 from . import quality
 from . import workorder

@@ -64,7 +64,7 @@
                                     <field name="sq_ft" display="full" widget="statinfo"/>
                                 </div>
                                 <div>
-                                    Final Decision Deadline : <field name="final_decision_date" widget="date"/>
+                                    Expected Ship Date : <field name="expected_ship_date" widget="date"/>
                                 </div>
                                 <div>
                                     Triple Binder Deadline : <field name="triple_binder_deadline" widget="date"/> 
@@ -110,7 +110,9 @@
                             <field name='today_date'/>
                             <field name='sq_ft'/>
                             <field name='expected_ship_date'/>
+                            <field name='triple_binder_days' class="oe_inline"/>
                             <field name='triple_binder_deadline'/>
+                            <field name='final_decision_days' class="oe_inline"/>
                             <field name='final_decision_date' />
                             <field name='days_till_final_decision'/>
                             <field name='days_till_triple_binder'/>

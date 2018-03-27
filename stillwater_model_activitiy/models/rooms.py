@@ -47,20 +47,26 @@ class Rooms(models.Model):
     sq_ft = fields.Integer("Sq. Ft.")
     quotation_ids = fields.Many2many(comodel_name='sale.order', string="Quotation")
     hex_color = fields.Char(string="Hex Color", compute="_compute_hex_color")
+    triple_binder_days = fields.Integer(string="Tripe binder Days")
+    final_decision_days = fields.Integer(string="Final Decision Days")
 
 
-    @api.depends('expected_ship_date')
+    @api.depends('expected_ship_date', 'triple_binder_days', 'final_decision_days')
     def _compute_dates(self):
         for record in self:
              if record.expected_ship_date:
-                final_decision_date = fields.Date.from_string(record.expected_ship_date)- timedelta(days=42)
-                triple_binder_deadline = fields.Date.from_string(record.expected_ship_date) - timedelta(days=63)
+                ship_date = fields.Date.from_string(record.expected_ship_date)
+                decision_days = record.final_decision_days if record.final_decision_days else 42
+                binder_days = record.triple_binder_days if record.triple_binder_days else 63
+
+                final_decision_date = ship_date - timedelta(days=decision_days)
+                triple_binder_deadline = ship_date - timedelta(days=binder_days)
 
                 record.final_decision_date = final_decision_date
                 record.triple_binder_deadline = triple_binder_deadline
 
-                record.days_till_final_decision = (triple_binder_deadline - fields.Date.from_string(fields.Date.today())).days
-                record.days_till_triple_binder = (final_decision_date - fields.Date.from_string(fields.Date.today())).days
+                record.days_till_final_decision = (final_decision_date - fields.Date.from_string(fields.Date.today())).days
+                record.days_till_triple_binder = (triple_binder_deadline - fields.Date.from_string(fields.Date.today())).days
 
 
 
@@ -69,27 +75,37 @@ class Rooms(models.Model):
         for record in self.filtered(lambda l : l.triple_binder_deadline and l.final_decision_date):
             if not record.sent_to_production:
                 try:
-                    blinder = fields.Datetime.from_string(fields.Datetime.now()) - fields.Datetime.from_string(record.triple_binder_deadline)
-                    delta = fields.Datetime.from_string(fields.Datetime.now()) - fields.Datetime.from_string(record.final_decision_date)
+                    today = fields.Datetime.from_string(fields.Datetime.now())
+                    binder_date = fields.Datetime.from_string(record.triple_binder_deadline)
+                    final_date = fields.Datetime.from_string(record.final_decision_date)
+
                     if record.final_decisions_made and record.room_budget_approved:
-                        record['hex_color'] = '3498DB' # blue
-                        if blinder.days > 7:
-                            record['hex_color'] = '3498DB' # blue
-                        elif blinder.days <= 7 and blinder.days > 0:
-                            record['hex_color'] = 'AF7AC5' # light purple
-                        elif blinder.days < 0:
-                            record['hex_color'] = '76448A' # dark purple
+                        blinder = binder_date - today
+
+                        if today <= binder_date:
+                            if blinder.days > 7:
+                                record['hex_color'] = '3498DB' # blue
+                            elif blinder.days <= 7 and blinder.days > 0:
+                                record['hex_color'] = 'AF7AC5' # light purple
+                        else:
+                            record['hex_color'] = 'D24DFF' # dark purple
+
                     else:
-                        if delta.days > 14:
-                            record['hex_color'] = '58D68D' # green
-                        elif delta.days <= 14 and delta.days > 7:
-                            record['hex_color'] = 'F7DC6F' # yellow
-                        elif delta.days <= 7:
-                            record['hex_color'] = 'F39C12' # orange
+                        delta = final_date - today
+
+                        if today <= final_date:
+                            if delta.days > 14:
+                                record['hex_color'] = '58D68D' # green
+                            elif delta.days <= 14 and delta.days > 7:
+                                record['hex_color'] = 'FFFF99' # yellow
+                            elif delta.days <= 7:
+                                record['hex_color'] = 'FFAA80' # orange
+                        else:
+                            record['hex_color'] = 'FF4D4D' # red
                 except:
                     record['hex_color'] = ""
             else:
-                record['hex_color'] = "D3D3D3"
+                record['hex_color'] = "BFBFBF" # LIGHTGRAY
 
     def _compute_today_date(self):
         for record in self:

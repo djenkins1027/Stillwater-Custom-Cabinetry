@@ -15,17 +15,20 @@ class Workorder(models.Model):
 
     @api.depends('date_planned_finished')
     def _compute_hex_color(self):
-        for record in self:
+        for record in self.filtered("date_planned_finished"):
             try:
-                for record in self.filtered("date_planned_finished"):
-                    delta = datetime.now() - fields.Datetime.from_string(record.date_planned_finished)
+                today = datetime.now()
+                finish_date = fields.Datetime.from_string(record.date_planned_finished)
+                if today < finish_date:
+                    delta = finish_date - today
+                    print ("delta...", delta)
                     if delta.days > 14:
                         record['hex_color'] = '58D68D' # green
                     elif delta.days <= 14 and delta.days > 7:
-                        record['hex_color'] = 'F7DC6F' # yellow
+                        record['hex_color'] = 'FFFF99' # yellow
                     elif delta.days <= 7 and delta.days > 0:
-                        record['hex_color'] = 'F39C12' # orange
-                    elif delta.days < 0:
-                        record['hex_color'] = 'E74C3C' # red
+                        record['hex_color'] = 'FFAA80' # orange
+                else:
+                    record['hex_color'] = 'FF4D4D' # red
             except:
                 record['hex_color'] = ""

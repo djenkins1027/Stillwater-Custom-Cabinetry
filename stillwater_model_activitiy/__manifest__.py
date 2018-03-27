@@ -5,7 +5,7 @@
     'category': 'Extra',
     'author': 'Stillwater Costume Cabinetry',
     'depends': [
-        'crm', 'sale', 'quality'
+        'crm', 'sale', 'quality', 'mrp'
     ],
     'data': [
         'security/ir.model.access.csv',
