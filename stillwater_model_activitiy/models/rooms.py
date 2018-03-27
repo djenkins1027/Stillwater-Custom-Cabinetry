@@ -56,8 +56,8 @@ class Rooms(models.Model):
         for record in self:
              if record.expected_ship_date:
                 ship_date = fields.Date.from_string(record.expected_ship_date)
-                decision_days = record.final_decision_days if record.final_decision_days else 42
-                binder_days = record.triple_binder_days if record.triple_binder_days else 63
+                decision_days = record.final_decision_days if record.final_decision_days else 63
+                binder_days = record.triple_binder_days if record.triple_binder_days else 42
 
                 final_decision_date = ship_date - timedelta(days=decision_days)
                 triple_binder_deadline = ship_date - timedelta(days=binder_days)
