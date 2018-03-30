@@ -56,8 +56,8 @@ class Rooms(models.Model):
         for record in self:
              if record.expected_ship_date:
                 ship_date = fields.Date.from_string(record.expected_ship_date)
-                decision_days = record.final_decision_days if record.final_decision_days else 63
-                binder_days = record.triple_binder_days if record.triple_binder_days else 42
+                decision_days = record.final_decision_days if record.final_decision_days else 0
+                binder_days = record.triple_binder_days if record.triple_binder_days else 0
 
                 final_decision_date = ship_date - timedelta(days=decision_days)
                 triple_binder_deadline = ship_date - timedelta(days=binder_days)
@@ -68,18 +68,16 @@ class Rooms(models.Model):
                 record.days_till_final_decision = (final_decision_date - fields.Date.from_string(fields.Date.today())).days
                 record.days_till_triple_binder = (triple_binder_deadline - fields.Date.from_string(fields.Date.today())).days
 
-
-
-    @api.depends('expected_ship_date', 'triple_binder_deadline', 'final_decision_date', 'final_decisions_made')
+    @api.depends('expected_ship_date', 'triple_binder_deadline', 'final_decision_date', 'final_decisions_made', 'room_budget_approved')
     def _compute_hex_color(self):
-        for record in self.filtered(lambda l : l.triple_binder_deadline and l.final_decision_date):
+        for record in self:
             if not record.sent_to_production:
                 try:
                     today = fields.Datetime.from_string(fields.Datetime.now())
                     binder_date = fields.Datetime.from_string(record.triple_binder_deadline)
                     final_date = fields.Datetime.from_string(record.final_decision_date)
 
-                    if record.final_decisions_made and record.room_budget_approved:
+                    if record.final_decisions_made and record.room_budget_approved and record.expected_ship_date:
                         blinder = binder_date - today
 
                         if today <= binder_date:
@@ -88,7 +86,13 @@ class Rooms(models.Model):
                             elif blinder.days <= 7 and blinder.days > 0:
                                 record['hex_color'] = 'AF7AC5' # light purple
                         else:
-                            record['hex_color'] = 'D24DFF' # dark purple
+                            record['hex_color'] = 'B3FFFF' # dark purple
+
+                    elif not record.expected_ship_date:
+                        if record.final_decisions_made and record.room_budget_approved:
+                            record['hex_color'] = '3498DB' # blue
+                        else:
+                            record['hex_color'] = 'FF4D4D' # red
 
                     else:
                         delta = final_date - today

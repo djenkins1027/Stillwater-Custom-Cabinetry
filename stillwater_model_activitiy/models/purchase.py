@@ -16,7 +16,7 @@ class PurchaseOrder(models.Model):
             if sale_id:
                 vals.update({'sale_id': sale_id.id})
         return super(PurchaseOrder, self).create(vals)
-
+ 
     @api.multi
     def write(self, vals):
         if vals.get('origin'):
@@ -24,3 +24,4 @@ class PurchaseOrder(models.Model):
             if sale_id:
                 vals.update({'sale_id': sale_id.id})
         return super(PurchaseOrder, self).write(vals)
+

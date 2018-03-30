@@ -8,7 +8,7 @@
             <field name="inherit_id" ref="mrp.workcenter_line_kanban"/>
             <field name="arch" type="xml">
                 <div t-attf-class="oe_kanban_card oe_kanban_global_click" position="attributes">
-                    <attribute name="t-attf-style">background-color: ##{record.hex_color.value};</attribute>
+                    <attribute name="t-attf-style">background-color: ##{record.hex_color.value}; color: black; font-size: 16px; font-weight: bold;</attribute>
                 </div>
                 <field name="product_uom_id" position="after">
                     <field name="hex_color" readonly="1"/>

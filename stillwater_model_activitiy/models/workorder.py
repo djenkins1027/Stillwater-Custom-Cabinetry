@@ -19,16 +19,12 @@ class Workorder(models.Model):
             try:
                 today = datetime.now()
                 finish_date = fields.Datetime.from_string(record.date_planned_finished)
-                if today < finish_date:
-                    delta = finish_date - today
-                    print ("delta...", delta)
-                    if delta.days > 14:
-                        record['hex_color'] = '58D68D' # green
-                    elif delta.days <= 14 and delta.days > 7:
-                        record['hex_color'] = 'FFFF99' # yellow
-                    elif delta.days <= 7 and delta.days > 0:
-                        record['hex_color'] = 'FFAA80' # orange
-                else:
+                delta = today - finish_date
+                if delta.days < 0:
                     record['hex_color'] = 'FF4D4D' # red
+                elif delta.days >= 0 and delta.days <= 2:
+                    record['hex_color'] = 'FFFF99' # yellow
+                else:
+                    record['hex_color'] = '58D68D' # green
             except:
                 record['hex_color'] = ""

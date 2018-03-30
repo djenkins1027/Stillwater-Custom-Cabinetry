@@ -13,7 +13,8 @@ Stillwater: Mrp Customizations
     'version': '0.1',
     'depends': ['mrp', 'quality_mrp'],
     'data': [
-        'views/mrp_views.xml'
+        'views/mrp_views.xml',
+        'views/mrp_workorder_views.xml'
     ],
     'license': 'OEEL-1',
 }
