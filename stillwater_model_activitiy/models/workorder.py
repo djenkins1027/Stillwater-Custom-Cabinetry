@@ -19,7 +19,7 @@ class Workorder(models.Model):
             try:
                 today = datetime.now()
                 finish_date = fields.Datetime.from_string(record.date_planned_finished)
-                delta = today - finish_date
+                delta = finish_date - today
                 if delta.days < 0:
                     record['hex_color'] = 'FF4D4D' # red
                 elif delta.days >= 0 and delta.days <= 2:

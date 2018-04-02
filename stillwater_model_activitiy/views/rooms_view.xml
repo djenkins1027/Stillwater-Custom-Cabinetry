@@ -58,15 +58,15 @@
                         <div t-attf-class="oe_kanban_card oe_kanban_global_click" t-attf-style="background-color: ##{record.hex_color.value};">
                             <div class="o_kanban_card_content">
                                 <div>
-                                    <strong class="o_kanban_record_title" t-attf-style="color: black; font-size: 16px; font-weight: bold;"><field name="name"/></strong>
+                                    <strong class="o_kanban_record_title" t-attf-style="color: black; font-size: 17px; font-weight: bold;"><field name="name"/></strong>
                                 </div>
-                                <div t-attf-style="color: black; font-size: 16px; font-weight: bold;">
+                                <div t-attf-style="color: black; font-size: 14px; font-weight: bold;">
                                     <field name="sq_ft" display="full" widget="statinfo"/>
                                 </div>
-                                <div t-attf-style="color: black; font-size: 16px; font-weight: bold;">
+                                <div t-attf-style="color: black; font-size: 14px; font-weight: bold;">
                                     Expected Ship Date : <field name="expected_ship_date" widget="date"/>
                                 </div>
-                                <div t-attf-style="color: black; font-size: 16px; font-weight: bold;">
+                                <div t-attf-style="color: black; font-size: 14px; font-weight: bold;">
                                     Triple Binder Deadline : <field name="triple_binder_deadline" widget="date"/> 
                                 </div>
                             </div>
