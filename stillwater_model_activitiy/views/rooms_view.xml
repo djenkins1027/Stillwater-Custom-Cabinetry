@@ -48,14 +48,27 @@
         <field name='model'>rooms.rooms</field>
         <field name='arch' type='xml'>
             <kanban string='Rooms' default_group_by='project_lead_id'>
+                <field name="name"/>
+                <field name="sq_ft"/>
+                <field name="expected_ship_date"/>
+                <field name="triple_binder_deadline"/>
+                <field name="hex_color"/>
                 <templates>
-                    <t t-name='kanban-box'>
-                        <div t-attf-class='oe_kanban_card oe_kanban_global_click'>
-                            <div class='o_kanban_card_content'>
-                                <field name='name' display='full' />
-                                <field name='sq_ft' display='full' widget='statinfo' /> Expected Ship Date
-                                <field name='expected_ship_date' display='right' widget='date' /> Triple Binder Deadline
-                                <field name='triple_binder_deadline' widget='date' display='right' />
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_card oe_kanban_global_click" t-attf-style="background-color: ##{record.hex_color.value};">
+                            <div class="o_kanban_card_content">
+                                <div>
+                                    <strong class="o_kanban_record_title" t-attf-style="color: black; font-size: 17px; font-weight: bold;"><field name="name"/></strong>
+                                </div>
+                                <div t-attf-style="color: black; font-size: 14px; font-weight: bold;">
+                                    <field name="sq_ft" display="full" widget="statinfo"/>
+                                </div>
+                                <div t-attf-style="color: black; font-size: 14px; font-weight: bold;">
+                                    Expected Ship Date : <field name="expected_ship_date" widget="date"/>
+                                </div>
+                                <div t-attf-style="color: black; font-size: 14px; font-weight: bold;">
+                                    Triple Binder Deadline : <field name="triple_binder_deadline" widget="date"/> 
+                                </div>
                             </div>
                         </div>
                     </t>
@@ -94,10 +107,16 @@
                             <field name='mv_work_order_no' string='MV Work Order Number' />
                         </group>
                         <group name='studio_group_3963a6_right'>
-                            <field name='sq_ft' string='Sq. Ft. ' />
-                            <field name='expected_ship_date' string='Expected Ship Date' />
-                            <field name='triple_binder_deadline' string='Triple Binder Deadline' />
+                            <field name='today_date'/>
+                            <field name='sq_ft'/>
+                            <field name='expected_ship_date'/>
+                            <field name='triple_binder_days' class="oe_inline"/>
+                            <field name='triple_binder_deadline'/>
+                            <field name='final_decision_days' class="oe_inline"/>
                             <field name='final_decision_date' />
+                            <field name='days_till_final_decision'/>
+                            <field name='days_till_triple_binder'/>
+                            <field name='sent_to_production'/>
                         </group>
                     </group>
                     <group name='studio_group_08NaG'>
@@ -144,5 +163,7 @@
             action="action_view_rooms_rooms"/>
 
 
-
+    <menuitem id="crm.crm_menu_root"
+              name="CRM"
+              action="action_view_rooms_rooms"/>
 </odoo>
