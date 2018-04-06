@@ -20,7 +20,7 @@ class Rooms(models.Model):
     mv_project_no = fields.Char(string="MV Project Number", related="project_lead_id.mv_project_no")
     bad_sq_ft = fields.Char("Bad Sq. Ft")
     today_date = fields.Date(string='Today', compute='_compute_today_date')
-    expected_ship_date = fields.Date("Expected Ship Date", store=True, related="project_lead_id.ship_date")
+    expected_ship_date = fields.Date("Expected Ship Date", store=False, related="project_lead_id.ship_date")
     triple_binder_deadline = fields.Date(string="Triple Binder Deadline", store=True, compute="_compute_dates")
     final_decision_date = fields.Date(string="Final Decision Deadline", store=True, compute="_compute_dates")
     days_till_final_decision = fields.Integer(string='Days Till Final Decision Deadline ', compute='_compute_dates')
