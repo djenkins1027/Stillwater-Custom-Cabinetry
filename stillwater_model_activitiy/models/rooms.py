@@ -16,7 +16,7 @@ class Rooms(models.Model):
     contact_name = fields.Char(string="Home Owner Last Name", related="project_lead_id.contact_name")
     mv_project_no = fields.Char(string="MV Project Number", related="project_lead_id.mv_project_no")
     bad_sq_ft = fields.Char("Bad Sq. Ft")
-    expected_ship_date = fields.Date("Expected Ship Date", related="project_lead_id.ship_date")
+    expected_ship_date = fields.Date("Expected Ship Date", store=False,related="project_lead_id.ship_date")
     triple_binder_deadline = fields.Date("Triple Binder Deadline", conpute="_compute_triple_binder_deadline")
     final_decision_date = fields.Date("Final Decision Date", conpute="_compute_triple_binder_deadline")
     species = fields.Char("Species")
