@@ -1,12 +1,28 @@
 # -*- coding: utf-8 -*-
 
-from odoo import api, models, _
+from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 from odoo.tools import float_compare, float_round
 
 
 class MrpWorkorder(models.Model):
     _inherit = "mrp.workorder"
+
+    document_ids = fields.One2many('note.note', 'workorder_id', string="Documents")
+    document_count = fields.Integer(compute="_compute_document_count")
+
+    @api.multi
+    def _compute_document_count(self):
+        for order in self:
+            order.document_count = len(order.document_ids)
+
+    @api.multi
+    def action_open_documents(self):
+        self.ensure_one()
+        action_data = self.env.ref('note.action_note_note').read()[0]
+        action_data['domain'] = [('workorder_id', '=', self.id)]
+        action_data['context'] = {'default_workorder_id': self.id}
+        return action_data
 
     def _generate_lot_ids(self):
         """ Generate stock move lines """
