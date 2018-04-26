@@ -13,7 +13,6 @@
         'views/finish_code_views.xml',
         'views/quality_view.xml',
         'views/sale_view.xml',
-        'views/purchase_view.xml',
         'views/workorder_views.xml',
     ],
 }

@@ -20,7 +20,7 @@ class Rooms(models.Model):
     mv_project_no = fields.Char(string="MV Project Number", related="project_lead_id.mv_project_no")
     bad_sq_ft = fields.Char("Bad Sq. Ft")
     today_date = fields.Date(string='Today', compute='_compute_today_date')
-    expected_ship_date = fields.Date("Expected Ship Date")
+    expected_ship_date = fields.Date("Expected Ship Date", store=True, related="project_lead_id.ship_date")
     triple_binder_deadline = fields.Date(string="Triple Binder Deadline", store=True, compute="_compute_dates")
     final_decision_date = fields.Date(string="Final Decision Deadline", store=True, compute="_compute_dates")
     days_till_final_decision = fields.Integer(string='Days Till Final Decision Deadline ', compute='_compute_dates')
@@ -51,12 +51,6 @@ class Rooms(models.Model):
     final_decision_days = fields.Integer(string="Final Decision Days")
 
 
-    @api.onchange('project_lead_id')
-    def onchange_expected_date(self):
-        for record in self:
-            if record.project_lead_id and not record.expected_ship_date:
-                record.expected_ship_date = record.project_lead_id.ship_date
-
     @api.depends('expected_ship_date', 'triple_binder_days', 'final_decision_days')
     def _compute_dates(self):
         for record in self:
@@ -71,8 +65,11 @@ class Rooms(models.Model):
                 record.final_decision_date = final_decision_date
                 record.triple_binder_deadline = triple_binder_deadline
 
+                if record.final_decisions_made and record.room_budget_approved and record.final_decision_days:
+                    record.days_till_triple_binder = 1
+                else:
+                    record.days_till_triple_binder = (triple_binder_deadline - fields.Date.from_string(fields.Date.today())).days
                 record.days_till_final_decision = (final_decision_date - fields.Date.from_string(fields.Date.today())).days
-                record.days_till_triple_binder = (triple_binder_deadline - fields.Date.from_string(fields.Date.today())).days
 
     @api.depends('expected_ship_date', 'triple_binder_deadline', 'final_decision_date', 'final_decisions_made', 'room_budget_approved')
     def _compute_hex_color(self):
@@ -88,11 +85,11 @@ class Rooms(models.Model):
 
                         if today <= binder_date:
                             if blinder.days > 7:
-                                record['hex_color'] = '3498DB' # blue
+                                record['hex_color'] = 'B3FFFF' # light blue
                             elif blinder.days <= 7 and blinder.days > 0:
-                                record['hex_color'] = 'AF7AC5' # light purple
+                                record['hex_color'] = '000080' # dark blue
                         else:
-                            record['hex_color'] = 'B3FFFF' # dark purple
+                            record['hex_color'] = '6A0097' # light purple
 
                     elif not record.expected_ship_date:
                         if record.final_decisions_made and record.room_budget_approved:
