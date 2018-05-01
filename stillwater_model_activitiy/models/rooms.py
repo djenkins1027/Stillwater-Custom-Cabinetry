@@ -94,9 +94,9 @@ class Rooms(models.Model):
                             if blinder.days > 7:
                                 record['hex_color'] = 'B3FFFF' # light blue
                             elif blinder.days <= 7 and blinder.days > 0:
-                                record['hex_color'] = '000080' # dark blue
+                                record['hex_color'] = '3498DB' # dark blue
                         else:
-                            record['hex_color'] = '6A0097' # light purple
+                            record['hex_color'] = 'AF7AC5' # light purple
 
                     elif not record.expected_ship_date:
                         if record.final_decisions_made and record.room_budget_approved:
