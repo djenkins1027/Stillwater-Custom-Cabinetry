@@ -88,13 +88,12 @@ class Rooms(models.Model):
                     final_date = fields.Datetime.from_string(record.final_decision_date)
 
                     if record.final_decisions_made and record.room_budget_approved and record.expected_ship_date:
-                        blinder = binder_date - today
+                        binder = binder_date - today
 
-                        if today <= binder_date:
-                            if blinder.days > 7:
-                                record['hex_color'] = 'B3FFFF' # light blue
-                            elif blinder.days <= 7 and blinder.days > 0:
-                                record['hex_color'] = '3498DB' # dark blue
+                        if binder.days > 7:
+                            record['hex_color'] = 'B3FFFF' # light blue
+                        elif binder.days <= 7 and binder.days > 0:
+                            record['hex_color'] = '3498DB' # dark blue
                         else:
                             record['hex_color'] = 'AF7AC5' # light purple
 
