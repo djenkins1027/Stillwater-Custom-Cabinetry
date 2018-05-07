@@ -7,6 +7,7 @@ class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
     price_factor = fields.Monetary(currency_field='currency_id', string="Calculator")
+    spec_group = fields.Char(string="MV Spec Group Name")
 
     @api.onchange('price_factor')
     def onchange_price_factor(self):

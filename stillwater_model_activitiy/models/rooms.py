@@ -90,9 +90,9 @@ class Rooms(models.Model):
                     if record.final_decisions_made and record.room_budget_approved and record.expected_ship_date:
                         binder = binder_date - today
 
-                        if binder.days > 7:
+                        if binder.days > 8:
                             record['hex_color'] = 'B3FFFF' # light blue
-                        elif binder.days <= 7 and binder.days > 0:
+                        elif binder.days <= 8 and binder.days > 1:
                             record['hex_color'] = '3498DB' # dark blue
                         else:
                             record['hex_color'] = 'AF7AC5' # light purple
