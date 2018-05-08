@@ -15,7 +15,7 @@ class MrpProduction(models.Model):
         production = super(MrpProduction, self).create(values)
         sale = production.procurement_group_id.sale_id if production.procurement_group_id.sale_id else ""
         if sale:
-            line = sale.order_line.filtered(lambda l: l.product_id == production.product_id)
-            production['spec_group'] = line.spec_group
-
+            lines = sale.order_line.filtered(lambda l: l.product_id == production.product_id)
+            for line in lines:
+                production['spec_group'] = line.spec_group
         return production
