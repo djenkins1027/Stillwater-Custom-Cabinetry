@@ -23,6 +23,9 @@
                       <attribute name="attrs">{'readonly': [('parent.state', '!=', 'confirmed')]}</attribute>
                       <attribute name="context">{'oc_flag': True}</attribute>
                 </xpath>
+                <xpath expr="//field[@name='origin']" position="after">
+                    <field name="spec_group" readonly="1"/>
+                </xpath>
             </data>
         </field>
     </record>

@@ -24,4 +24,3 @@ class PurchaseOrder(models.Model):
             if sale_id:
                 vals.update({'sale_id': sale_id.id})
         return super(PurchaseOrder, self).write(vals)
-

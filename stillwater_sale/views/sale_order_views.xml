@@ -8,6 +8,9 @@
 	    	<xpath expr="//field[@name='order_line']//tree//field[@name='price_unit']" position="before">
 	    		<field name="price_factor" help="Price unit calculated as 'Calcualtor/Order quantity(Sq Ft.)' if Calcualtor > 0.00 otherwise standard behaviour."/>
 	    	</xpath>
+	        <xpath expr="//field[@name='order_line']//tree//field[@name='product_id']" position="after">
+	            <field name="spec_group"/>
+	        </xpath>
 	    </field>
 	</record>
 </odoo>
