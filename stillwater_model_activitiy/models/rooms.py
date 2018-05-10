@@ -13,7 +13,7 @@ class Rooms(models.Model):
     _description = "Rooms"
 
     name = fields.Char("Name")
-    active = fields.Boolean(string='Active', defaut=True)
+    active = fields.Boolean(string='Active', default=True)
     project_lead_id = fields.Many2one("crm.lead", string="Project")
     finish_code_id = fields.Many2one("finish.code", string="Finish Code")
     mv_work_order_no = fields.Char("MV Work Order Number")
