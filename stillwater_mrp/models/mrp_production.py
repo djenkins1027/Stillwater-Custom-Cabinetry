@@ -18,7 +18,5 @@ class ProcurementRule(models.Model):
         vals = super(ProcurementRule, self)._prepare_mo_vals(product_id, product_qty, product_uom, location_id, name, origin, values, bom)
 
         if values['move_dest_ids'] and values['move_dest_ids'].sale_line_id:
-            spec_group = values['move_dest_ids'].sale_line_id.spec_group
-        vals['spec_group'] = spec_group if spec_group else ""
-
+            vals['spec_group'] = values['move_dest_ids'].sale_line_id.spec_group
         return vals
