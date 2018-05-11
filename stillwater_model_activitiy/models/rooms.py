@@ -80,16 +80,16 @@ class Rooms(models.Model):
         for record in self:
             if not record.sent_to_production:
                 try:
-                    today = fields.Datetime.from_string(fields.Datetime.now())
+                    today = fields.Datetime.from_string(fields.Date.today())
                     binder_date = fields.Datetime.from_string(record.triple_binder_deadline)
                     final_date = fields.Datetime.from_string(record.final_decision_date)
 
                     if record.final_decisions_made and record.room_budget_approved and record.expected_ship_date:
                         binder = binder_date - today
 
-                        if binder.days > 6:
+                        if binder.days > 7:
                             record['hex_color'] = 'B3FFFF' # light blue
-                        elif binder.days <= 6 and binder.days > 0:
+                        elif binder.days <= 7 and binder.days >= 1:
                             record['hex_color'] = '3498DB' # dark blue
                         else:
                             record['hex_color'] = 'AF7AC5' # light purple
