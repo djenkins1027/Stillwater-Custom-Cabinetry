@@ -10,12 +10,13 @@ class MrpProduction(models.Model):
 
     spec_group = fields.Char(string="MV Spec Group Name")
 
-    @api.model
-    def create(self, values):
-        production = super(MrpProduction, self).create(values)
-        sale = production.procurement_group_id.sale_id if production.procurement_group_id.sale_id else ""
-        if sale:
-            lines = sale.order_line.filtered(lambda l: l.product_id == production.product_id)
-            for line in lines:
-                production['spec_group'] = line.spec_group
-        return production
+
+class ProcurementRule(models.Model):
+    _inherit = 'procurement.rule'
+
+    def _prepare_mo_vals(self, product_id, product_qty, product_uom, location_id, name, origin, values, bom):
+        vals = super(ProcurementRule, self)._prepare_mo_vals(product_id, product_qty, product_uom, location_id, name, origin, values, bom)
+
+        if values['move_dest_ids'] and values['move_dest_ids'].sale_line_id:
+            vals['spec_group'] = values['move_dest_ids'].sale_line_id.spec_group
+        return vals

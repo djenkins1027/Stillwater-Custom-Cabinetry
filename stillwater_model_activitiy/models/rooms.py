@@ -72,10 +72,7 @@ class Rooms(models.Model):
                 record.final_decision_date = final_decision_date
                 record.triple_binder_deadline = triple_binder_deadline
 
-                if record.final_decisions_made and record.room_budget_approved and record.final_decision_days:
-                    record.days_till_triple_binder = 1
-                else:
-                    record.days_till_triple_binder = (triple_binder_deadline - fields.Date.from_string(fields.Date.today())).days
+                record.days_till_triple_binder = (triple_binder_deadline - fields.Date.from_string(fields.Date.today())).days
                 record.days_till_final_decision = (final_decision_date - fields.Date.from_string(fields.Date.today())).days
 
     @api.depends('expected_ship_date', 'triple_binder_deadline', 'final_decision_date', 'final_decisions_made', 'room_budget_approved')
@@ -83,7 +80,7 @@ class Rooms(models.Model):
         for record in self:
             if not record.sent_to_production:
                 try:
-                    today = fields.Datetime.from_string(fields.Datetime.now())
+                    today = fields.Datetime.from_string(fields.Date.today())
                     binder_date = fields.Datetime.from_string(record.triple_binder_deadline)
                     final_date = fields.Datetime.from_string(record.final_decision_date)
 
