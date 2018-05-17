@@ -24,6 +24,7 @@
                       <attribute name="context">{'oc_flag': True}</attribute>
                 </xpath>
                 <xpath expr="//field[@name='origin']" position="after">
+                    <field name="sale_line_id" invisible="1"/>
                     <field name="spec_group" readonly="1"/>
                 </xpath>
             </data>
