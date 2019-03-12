@@ -17,11 +17,11 @@ class MrpProduction(models.Model):
         return res
 
 
-class ProcurementRule(models.Model):
-    _inherit = 'procurement.rule'
+class StockRule(models.Model):
+    _inherit = 'stock.rule'
 
     def _prepare_mo_vals(self, product_id, product_qty, product_uom, location_id, name, origin, values, bom):
-        vals = super(ProcurementRule, self)._prepare_mo_vals(product_id, product_qty, product_uom, location_id, name, origin, values, bom)
+        vals = super(StockRule, self)._prepare_mo_vals(product_id, product_qty, product_uom, location_id, name, origin, values, bom)
         if values['move_dest_ids'] and values['move_dest_ids'].sale_line_id:
             sale_line_id = values['move_dest_ids'].sale_line_id
             vals['sale_line_id'] = sale_line_id.id

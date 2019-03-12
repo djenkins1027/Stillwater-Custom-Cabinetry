@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from datetime import datetime, date, timedelta
 import dateutil
@@ -72,7 +73,10 @@ class Rooms(models.Model):
                 record.final_decision_date = final_decision_date
                 record.triple_binder_deadline = triple_binder_deadline
 
-                record.days_till_triple_binder = (triple_binder_deadline - fields.Date.from_string(fields.Date.today())).days
+                if record.final_decisions_made and record.room_budget_approved and record.final_decision_days:
+                    record.days_till_triple_binder = 1
+                else:
+                    record.days_till_triple_binder = (triple_binder_deadline - fields.Date.from_string(fields.Date.today())).days
                 record.days_till_final_decision = (final_decision_date - fields.Date.from_string(fields.Date.today())).days
 
     @api.depends('expected_ship_date', 'triple_binder_deadline', 'final_decision_date', 'final_decisions_made', 'room_budget_approved')
@@ -80,7 +84,7 @@ class Rooms(models.Model):
         for record in self:
             if not record.sent_to_production:
                 try:
-                    today = fields.Datetime.from_string(fields.Date.today())
+                    today = fields.Datetime.from_string(fields.Datetime.now())
                     binder_date = fields.Datetime.from_string(record.triple_binder_deadline)
                     final_date = fields.Datetime.from_string(record.final_decision_date)
 
@@ -89,7 +93,7 @@ class Rooms(models.Model):
 
                         if binder.days > 6:
                             record['hex_color'] = 'B3FFFF' # light blue
-                        elif binder.days <= 6 and binder.days >= 0:
+                        elif binder.days <= 6 and binder.days > 0:
                             record['hex_color'] = '3498DB' # dark blue
                         else:
                             record['hex_color'] = 'AF7AC5' # light purple
