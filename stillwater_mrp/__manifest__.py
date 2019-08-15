@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
+
 {
     "name": "Stillwater: Mrp Customizations",
     'summary': "Web",
@@ -11,7 +13,7 @@ Stillwater: Mrp Customizations
     'website': "https://www.odoo.com",
     'category': 'Custom Development',
     'version': '0.1',
-    'depends': ['mrp', 'quality_mrp', 'note', 'stillwater_sale'],
+    'depends': ['quality_mrp', 'note', 'mrp_workorder'],
     'data': [
         'views/mrp_views.xml',
         'views/mrp_workorder_views.xml',

@@ -1,36 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-	<!-- <record id="action_open_workorder_documents" model="ir.actions.act_window">
-		<field name="name">Open Workorder Documents</field>
-		<field name="res_model">x_binder_pdfs</field>
-		<field name="view_type">form</field>
-		<field name="view_mode">tree,form</field>
-		<field name="context">{}</field>
-		<field name="domain">[('x_studio_field_Ii94i', '=', active_id)]</field>
-	</record> -->
-	<record id="mrp_workorder_form_inherit_stillwater_mrp" model="ir.ui.view">
-	    <field name="name">mrp.workorder.form.inherit.stillwater_mrp</field>
-	    <field name="model">mrp.workorder</field>
-	    <field name="inherit_id" ref="mrp.mrp_production_workcenter_form_view_inherit"/>
-	    <field name="arch" type="xml">
-	    	<xpath expr="//div[@name='button_box']" position="inside">
-	    		<button class="oe_stat_button" name="action_open_documents" type="object" icon="fa-file">
+    <!-- <record id="action_open_workorder_documents" model="ir.actions.act_window">
+        <field name="name">Open Workorder Documents</field>
+        <field name="res_model">x_binder_pdfs</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="domain">[('x_studio_field_Ii94i', '=', active_id)]</field>
+    </record> -->
+    <record id="mrp_workorder_form_inherit_stillwater_mrp" model="ir.ui.view">
+        <field name="name">mrp.workorder.form.inherit.stillwater_mrp</field>
+        <field name="model">mrp.workorder</field>
+        <field name="inherit_id" ref="mrp.mrp_production_workorder_form_view_inherit"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button class="oe_stat_button" name="action_open_documents" type="object" icon="fa-file">
                     <div class="o_field_widget o_stat_info">
                         <span class="o_stat_value"><field name="document_count"/></span>
                         <span class="o_stat_text">Documents</span>
                     </div>
                 </button>
-	    	</xpath>
-	    </field>
-	</record>
-	<record id="mrp_workorder_view_form_tablet_inherit_stillwater" model="ir.ui.view">
-	    <field name="name">mrp.workorder.view.form.inherit.quality.tablet.new.inherit.stillwater</field>
-	    <field name="model">mrp.workorder</field>
-	    <field name="inherit_id" ref="quality_mrp.mrp_workorder_view_form_tablet"/>
-	    <field name="arch" type="xml">
-	    	<xpath expr="//div[hasclass('workorder_actions')]/div" position="inside">
-	    		<button name="action_open_documents" type="object" class="btn-default pull-right" string="Documents"/>
-	    	</xpath>
-	    </field>
-	</record>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="mrp_workorder_view_form_tablet_inherit_stillwater" model="ir.ui.view">
+        <field name="name">mrp.workorder.view.form.inherit.quality.tablet.new.inherit.stillwater</field>
+        <field name="model">mrp.workorder</field>
+        <field name="inherit_id" ref="mrp_workorder.mrp_workorder_view_form_tablet"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('workorder_actions')]/div" position="inside">
+                <button name="action_open_documents" type="object" class="btn-default pull-right" string="Documents"/>
+            </xpath>
+        </field>
+    </record>
+
 </odoo>

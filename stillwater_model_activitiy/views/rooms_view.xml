@@ -145,25 +145,32 @@
         </field>
     </record>
 
-    <record id='action_view_rooms_rooms' model='ir.actions.act_window'>
-        <field name='limit'>80</field>
+   <!--  <record id='action_view_rooms_rooms' model='ir.actions.act_window'>
         <field name='name'>Rooms</field>
         <field name='res_model'>rooms.rooms</field>
         <field name='type'>ir.actions.act_window</field>
         <field name='view_mode'>kanban,tree,form</field>
         <field name='domain'>[]</field>
         <field name='context'>{}</field>
+    </record> -->
+
+    <record id="action_view_rooms_rooms" model="ir.actions.act_window">
+      <field name="name">Rooms</field>
+      <field name="res_model">rooms.rooms</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">kanban,tree,form</field>
+      <!-- <field name="search_view_id" ref="view_note_note_filter"/> -->
+      <field name="context">{}</field>
     </record>
+
+    <menuitem id="crm.crm_menu_root"
+              name="CRM"
+              action="stillwater_model_activitiy.action_view_rooms_rooms"/>
 
     <menuitem
             id="crm_rooms_action_view_rooms_rooms"
             name="Rooms"
             parent="crm.crm_menu_root"
-            sequence="2"
-            action="action_view_rooms_rooms"/>
+            sequence="2"/>
 
-
-    <menuitem id="crm.crm_menu_root"
-              name="CRM"
-              action="action_view_rooms_rooms"/>
 </odoo>

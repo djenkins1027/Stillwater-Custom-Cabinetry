@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-	<record id="note_form_inherit_stillwater_mrp" model="ir.ui.view">
-	    <field name="name">note.note.form.inherit.stillwater_mrp</field>
-	    <field name="model">note.note</field>
-	    <field name="inherit_id" ref="note.view_note_note_form"/>
-	    <field name="arch" type="xml">
-	    	<xpath expr="//field[@name='memo']" position="after">
-	    		<group>
-	    			<group>
-	    				<field name="workorder_id"/>
-	    			</group>
-	    		</group>
-	    	</xpath>
-	    </field>
-	</record>
+    <record id="note_form_inherit_stillwater_mrp" model="ir.ui.view">
+        <field name="name">note.note.form.inherit.stillwater_mrp</field>
+        <field name="model">note.note</field>
+        <field name="inherit_id" ref="note.view_note_note_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='memo']" position="after">
+                <group>
+                    <group>
+                        <field name="workorder_id"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
 </odoo>

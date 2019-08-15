@@ -3,7 +3,7 @@
     <record id="view_quality_alert_view_form_inherited" model="ir.ui.view">
         <field name="model">quality.alert</field>
         <field name="name">quality.alert.view.form.inherited</field>
-        <field name="inherit_id" ref="quality.quality_alert_view_form" />
+        <field name="inherit_id" ref="quality_control.quality_alert_view_form" />
         <field name="arch" type="xml">
             <data>
                 <xpath expr="//field[@name='product_id']" position="after">

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-	<record id="sale_order_view_form_inherit_stillwater" model="ir.ui.view">
-	    <field name="name">sale.order.view.form.inherit_stillwater</field>
-	    <field name="model">sale.order</field>
-	    <field name="inherit_id" ref="sale.view_order_form"/>
-	    <field name="arch" type="xml">
-	    	<xpath expr="//field[@name='order_line']//tree//field[@name='price_unit']" position="before">
-	    		<field name="price_factor" help="Price unit calculated as 'Calcualtor/Order quantity(Sq Ft.)' if Calcualtor > 0.00 otherwise standard behaviour."/>
-	    	</xpath>
-	        <xpath expr="//field[@name='order_line']//tree//field[@name='product_id']" position="after">
-	            <field name="spec_group"/>
-	        </xpath>
-	    </field>
-	</record>
+    <record id="sale_order_view_form_inherit_stillwater" model="ir.ui.view">
+        <field name="name">sale.order.view.form.inherit_stillwater</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']//tree//field[@name='price_unit']" position="before">
+                <field name="price_factor" help="Price unit calculated as 'Calcualtor/Order quantity(Sq Ft.)' if Calcualtor > 0.00 otherwise standard behaviour."/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']//tree//field[@name='product_id']" position="after">
+                <field name="spec_group"/>
+            </xpath>
+        </field>
+    </record>
 </odoo>
