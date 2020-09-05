@@ -13,7 +13,6 @@ class MrpProductProduce(models.TransientModel):
     _inherit = "mrp.product.produce"
     _description = "Record Production"
 
-    @api.multi
     def do_produce(self):
         ret =  super(MrpProductProduce, self).do_produce()
         if self.production_id.state in ('progress', 'done'):

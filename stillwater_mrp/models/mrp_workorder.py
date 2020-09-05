@@ -12,12 +12,10 @@ class MrpWorkorder(models.Model):
     document_ids = fields.One2many('note.note', 'workorder_id', string="Documents")
     document_count = fields.Integer(compute="_compute_document_count")
 
-    @api.multi
     def _compute_document_count(self):
         for order in self:
             order.document_count = len(order.document_ids)
 
-    @api.multi
     def action_open_documents(self):
         self.ensure_one()
         action_data = self.env.ref('note.action_note_note').read()[0]
@@ -84,7 +82,6 @@ class MrpWorkorder(models.Model):
                 # wo.component_remaining_qty = float_round(sum(moves.mapped('unit_factor')) * wo.qty_producing - sum(completed_lines.mapped('qty_done')), precision_rounding=move.product_uom.rounding)
                 wo.component_remaining_qty = float_round(sum(lines.mapped('qty_done')) - sum(completed_lines.mapped('qty_done')), precision_rounding=move.product_uom.rounding)
 
-    @api.multi
     def record_production(self):
         self.ensure_one()
         if self.qty_producing <= 0:

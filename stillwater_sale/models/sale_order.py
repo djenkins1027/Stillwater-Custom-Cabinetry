@@ -14,7 +14,6 @@ class SaleOrderLine(models.Model):
     def onchange_price_factor(self):
         self.product_id_change()
 
-    @api.multi
     def _get_display_price(self, product):
         # TO DO: move me in master/saas-16 on sale.order
         if self.order_id.pricelist_id.discount_policy == 'with_discount':

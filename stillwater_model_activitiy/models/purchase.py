@@ -18,7 +18,6 @@ class PurchaseOrder(models.Model):
                 vals.update({'sale_id': sale_id.id})
         return super(PurchaseOrder, self).create(vals)
  
-    @api.multi
     def write(self, vals):
         if vals.get('origin'):
             sale_id = self.env['sale.order'].search([('name', '=',vals.get('origin'))], limit=1)
