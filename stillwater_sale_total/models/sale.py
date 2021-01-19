@@ -18,8 +18,12 @@ class SaleOrder(models.Model):
                 'amount_tax': amount_tax,
                 'amount_total': amount_untaxed + amount_tax,
             })
-    
-    @api.depends('product_uom_qty', 'discount', 'price_unit', 'tax_id', 'order_line.x_studio_product_total')
+
+
+class SaleOrderLine(models.Model):
+    _inherit = 'sale.order.line'
+
+    @api.depends('product_uom_qty', 'discount', 'price_unit', 'tax_id', 'x_studio_product_total')
     def _compute_amount(self):
         for line in self:
             price = line.x_studio_product_total * (1 - (line.discount or 0.0) / 100.0)
